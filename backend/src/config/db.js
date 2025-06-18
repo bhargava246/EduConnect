@@ -12,4 +12,4 @@ const connectDB = async ()=>{
     console.log(`MongoDB Connected successfullt with url ${process.env.Mongo_URI}`);
 }
  
-export default connectDB;
+export default connectDB; 

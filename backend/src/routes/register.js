@@ -1,4 +1,4 @@
 const register = ()=>{
     console.log("Registration");
 }
-export default register;
+export default register; 
