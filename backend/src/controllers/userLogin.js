@@ -1,13 +1,12 @@
 import bcrypt from "bcryptjs";
-import userModel from "../models/user.js";
-import mongoose from "mongoose";
+import {user} from "../models/user.js";
 import jwt from "jsonwebtoken";
 
 const login = async (req,res)=>{
     const {email,password} = req.body;
     if(!email || !password)return res.status(400).json({error: 'All fields are mandatory'});
     try {
-        const user = await userModel.findOne({email: email});
+        const user = await user.findOne({email: email});
         if(!user){return res.status(401).json({error: 'user does not exist' })}
         const valid = await bcrypt.compare(password,user.password)
         const accessSecret = process.env.accessSecret
@@ -67,7 +66,7 @@ const refresh = async (req,res)=>{
     catch(error){
         return res.status(403).json({error: 'Invalid or exprired token'})
     }
-    const user = await userModel.findOne({_id:decoded.id})
+    const user = await user.findOne({_id:decoded.id})
     if(!user){return res.status(500).send({error: 'user not found'})};
     if(user.refreshToken === tokenFromCookie){
         const newaccessToken =  jwt.sign(
@@ -98,4 +97,22 @@ const refresh = async (req,res)=>{
     }
 
 }
-export {login,refresh}; 
+const logout = async (req,res)=>{
+    try {
+        const option = {
+            expires: new Date(Date.now()+3*24*60*60*1000),
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production"
+    
+        };
+        res.clearCookie("accessToken",option);
+        res.clearCookie("refreshToken",option);
+        return res.status(200).json({message: "user logged out successfully"});
+    }     
+     catch (error) {
+        console.error(error);
+        
+        return res.status(500).json("internal server error");
+    }
+}
+export {login,refresh,logout}; 

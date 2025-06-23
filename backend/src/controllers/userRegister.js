@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import userModel from "../models/user.js";
+import {user} from "../models/user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -16,7 +16,7 @@ const userRegister = async (req,res)=>{
 
     const myEncPassword = await bcrypt.hash(password,10)
     try {
-        const newuserModel = new userModel({name,role,email,password:myEncPassword});
+        const newuserModel = new user({name,role,email,password:myEncPassword});
         await newuserModel.save();
         const secret = process.env.SECRET
         if(!secret){return res.status(500).json({error: 'Secret key is missing in env'})}
