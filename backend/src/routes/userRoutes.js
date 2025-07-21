@@ -3,7 +3,6 @@ import userRegister from "../controllers/userRegister.js";
 import {login,refresh,logout} from "../controllers/userLogin.js";
 import { adminAuth ,studentAuth,teacherAuth,bothAuth} from "../middlewares/authMiddleware.js";
 import { courseById,fetchCourses,createCourse,updateCourses,deleteCourses } from "../controllers/createCourse.js"; 
-
 const router = express.Router();
 
 router.post('/auth/register',userRegister);

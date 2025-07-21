@@ -36,7 +36,7 @@ const updateContent = async (req,res)=>{
     try {
         const {order} = req.url;
         const {tittle,video,notes,duration} = req.body;
-        const updated = await content.findOneAndUpdate({{order:order},{tittle,vedio,notes,duration})
+        const updated = await content.findOneAndUpdate({yorder:order},{tittle,vedio,notes,duration})
         if(!update){
             return res.status(404).json({message: 'was not able to find the course'});
         }

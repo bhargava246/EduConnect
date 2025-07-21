@@ -62,11 +62,7 @@ const enrollmentSchema = mongoose.Schema({
 const enrollment = mongoose.model('enrollment',enrollmentSchema);
 
 const contentSchema = mongoose.Schema({
-    tittle: {type:String},
-    video: {type:String},
-    notes: {type:String},
-    duration: {type: String},
-    order: {type:Number}
+   
 },{
     timestamps: true
 });
